@@ -34,9 +34,11 @@ pipeline {
             label 'docker-agent-python'
         }
     }
+
     triggers {
         pollSCM 'H * * * *'
     }
+
     stages {
         stage('Build') {
             steps {
@@ -73,6 +75,20 @@ pipeline {
                 ./jenkins/scripts/final_message.sh
                 '''
             }
+        }
+    }
+
+    post {
+        always {
+            echo "This text is visible on every run!"
+        }
+
+        success {
+            echo "This text is only visible when the pipeline ran successfully"
+        }
+
+        failure {
+            echo "Failure! Check logs."
         }
     }
 }
